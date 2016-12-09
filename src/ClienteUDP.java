@@ -14,7 +14,7 @@ public class ClienteUDP {
 
 	//servidor
 	public static final int SRVPort=5555;
-	//public static final String SRVIP="192.168.3.63";
+	//public static final String SRVIP="192.168.3.57";
 	public static final String SRVIP="localhost";
 	
 	//cliente
@@ -36,27 +36,29 @@ public class ClienteUDP {
 			
 			while(true){
 				
-				//Lo que el usuario enviar·
-				
+				//Lo que el usuario enviar√°				
 				BufferedReader lector=null;
 				lector= new BufferedReader(new InputStreamReader(System.in));
+				System.out.println("el mensaje a enviar");
 				String mensaje=lector.readLine();//leer la entrada por teclado
 				
 				if(mensaje.equals("Q")){
 					System.out.println("has decidido salir.");
 					break;//si metes solo una Q es que quieres salir
 				}
-				
-				String envio= "El cliente dice: "+mensaje;
-				datosEnviados=envio.getBytes();
-				
-				datosEnv= new DatagramPacket(datosEnviados,datosEnviados.length,
-												InetAddress.getByName(SRVIP),
-												SRVPort);
-
-				
-				socket.send(datosEnv);
-				System.out.println("enviado el mensaje");
+				if(mensaje.trim().length()!=0){
+					String envio= "El cliente dice: "+mensaje;
+					datosEnviados=envio.getBytes();
+					
+					datosEnv= new DatagramPacket(datosEnviados,datosEnviados.length,
+													InetAddress.getByName(SRVIP),
+													SRVPort);					
+					socket.send(datosEnv);
+					System.out.println("enviado el mensaje");
+				}
+				else{
+					System.out.println("no se envian mensajes vacios");
+				}
 			}
 			
 		}catch(SocketException | UnknownHostException e){
